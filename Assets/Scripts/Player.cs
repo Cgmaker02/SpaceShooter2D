@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _leftEngine;
     private AudioSource _audioSource;
+    [SerializeField]
+    private int _shieldCount = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+      
         _audioSource = GetComponent<AudioSource>();
         _rightEngine.SetActive(false);
         _leftEngine.SetActive(false);
@@ -125,8 +128,22 @@ public class Player : MonoBehaviour
     {
         if(_isShieldActive == true)
         {
-            _isShieldActive = false;
-            _shieldVisualizer.SetActive(false);
+            _shieldCount--;
+            if(_shieldCount == 2)
+            {
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.magenta;
+            }
+
+            else if(_shieldCount == 1)
+            {
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+
+            else if (_shieldCount == 0)
+            {
+                _isShieldActive = false;
+                _shieldVisualizer.SetActive(false);
+            }
             return;
         }
 
@@ -182,6 +199,8 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shieldVisualizer.SetActive(true);
+        _shieldCount = 3;
+        _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.blue;
     }
 
     public void UpdateScore(int points)
