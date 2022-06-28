@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        Thrusters();
     }
 
     void CalculateMovement()
@@ -186,5 +188,17 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.PlayerScore(_score);
+    }
+
+    void Thrusters()
+    {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 5.0f;
+        }
+        if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = 3.5f;
+        }
     }
 }
