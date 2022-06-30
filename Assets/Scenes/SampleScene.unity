@@ -725,6 +725,9 @@ MonoBehaviour:
   _score: 0
   _rightEngine: {fileID: 1282992883}
   _leftEngine: {fileID: 1333673614}
+  _shieldCount: 3
+  _ammoCount: 15
+  _laserOut: {fileID: 8300000, guid: 394a63393a8c51644bf2fe7e35f0e605, type: 3}
 --- !u!212 &482637806
 SpriteRenderer:
   m_ObjectHideFlags: 0

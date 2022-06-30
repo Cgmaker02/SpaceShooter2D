@@ -32,6 +32,10 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField]
     private int _shieldCount = 3;
+    [SerializeField]
+    private int _ammoCount = 15;
+    [SerializeField]
+    private AudioClip _laserOut;
 
     // Start is called before the first frame update
     void Start()
@@ -115,13 +119,21 @@ public class Player : MonoBehaviour
         if(_isTripleShotActive == true)
         {
             Instantiate(_TripleShotPrefab, transform.position , Quaternion.identity);
+            _audioSource.Play();
+        }
+        if(_isTripleShotActive == false && _ammoCount > 0)
+        {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            _ammoCount--;
+            _audioSource.Play();
         }
         else
         {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            AudioSource.PlayClipAtPoint(_laserOut, transform.position);
         }
 
-        _audioSource.Play();
+        
+        
     }
 
     public void Damage()
