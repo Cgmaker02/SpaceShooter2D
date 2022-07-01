@@ -232,4 +232,25 @@ public class Player : MonoBehaviour
             speed = 3.5f;
         }
     }
+
+    public void RefillAmmo()
+    {
+        _ammoCount = 15;
+    }
+
+    public void Health()
+    {
+        _lives++;
+        _uiManager.UpdateLives(_lives);
+
+        if(_lives == 2)
+        {
+            _leftEngine.SetActive(false);
+        }
+
+        else if(_lives == 3)
+        {
+            _rightEngine.SetActive(false);
+        }
+    }
 }

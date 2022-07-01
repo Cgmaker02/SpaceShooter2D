@@ -45,6 +45,14 @@ public class PowerUps : MonoBehaviour
                     other.transform.GetComponent<Player>().ShieldActive();
                     Destroy(this.gameObject);
                     break;
+                case 3:
+                    other.transform.GetComponent<Player>().RefillAmmo();
+                    Destroy(this.gameObject);
+                    break;
+                case 4:
+                    other.transform.GetComponent<Player>().Health();
+                    Destroy(this.gameObject);
+                    break;
                 default:
                     Debug.Log("default value");
                     break;
