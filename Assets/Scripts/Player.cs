@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private bool _isTripleShotActive;
     private bool _isShieldActive;
+    private bool _isSecondaryActive;
     [SerializeField]
     private GameObject _TripleShotPrefab;
     [SerializeField]
@@ -36,6 +37,12 @@ public class Player : MonoBehaviour
     private int _ammoCount = 15;
     [SerializeField]
     private AudioClip _laserOut;
+    [SerializeField]
+    private GameObject _playerLeft;
+    [SerializeField]
+    private GameObject _playerRight;
+    [SerializeField]
+    private GameObject _secondaryPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +54,8 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _rightEngine.SetActive(false);
         _leftEngine.SetActive(false);
+        _playerLeft.SetActive(false);
+        _playerRight.SetActive(false);
 
         if(_spawnManager == null)
         {
@@ -121,7 +130,12 @@ public class Player : MonoBehaviour
             Instantiate(_TripleShotPrefab, transform.position , Quaternion.identity);
             _audioSource.Play();
         }
-        if(_isTripleShotActive == false && _ammoCount > 0)
+        if(_isSecondaryActive == true)
+        {
+            Instantiate(_secondaryPrefab, transform.position, Quaternion.identity);
+            _audioSource.Play();
+        }
+        if(_isTripleShotActive == false && _ammoCount > 0 && _isSecondaryActive == false)
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
             _ammoCount--;
@@ -252,5 +266,21 @@ public class Player : MonoBehaviour
         {
             _rightEngine.SetActive(false);
         }
+    }
+
+    public void SecondaryFire()
+    {
+        _isSecondaryActive = true;
+        _playerLeft.SetActive(true);
+        _playerRight.SetActive(true);
+        StartCoroutine(SecondaryCoolDown());
+    }
+
+    IEnumerator SecondaryCoolDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSecondaryActive = false;
+        _playerLeft.SetActive(false);
+        _playerRight.SetActive(false);
     }
 }

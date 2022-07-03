@@ -53,6 +53,10 @@ public class PowerUps : MonoBehaviour
                     other.transform.GetComponent<Player>().Health();
                     Destroy(this.gameObject);
                     break;
+                case 5:
+                    other.transform.GetComponent<Player>().SecondaryFire();
+                    Destroy(this.gameObject);
+                    break;
                 default:
                     Debug.Log("default value");
                     break;
