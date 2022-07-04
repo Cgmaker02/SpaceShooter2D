@@ -43,6 +43,12 @@ public class Player : MonoBehaviour
     private GameObject _playerRight;
     [SerializeField]
     private GameObject _secondaryPrefab;
+    [SerializeField]
+    private GameObject _thrusters1;
+    [SerializeField]
+    private GameObject _thrusters2;
+    [SerializeField]
+    private GameObject _thrusters3;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +62,8 @@ public class Player : MonoBehaviour
         _leftEngine.SetActive(false);
         _playerLeft.SetActive(false);
         _playerRight.SetActive(false);
+        _thrusters2.SetActive(false);
+        _thrusters3.SetActive(false);
 
         if(_spawnManager == null)
         {
@@ -212,6 +220,7 @@ public class Player : MonoBehaviour
     public void SpeedBoostActive()
     {
         speed = 8.5f;
+        _thrusters3.SetActive(true);
         StartCoroutine(SpeedBoostCoolDown());
     }
 
@@ -219,6 +228,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         speed = 3.5f;
+        _thrusters3.SetActive(false);
     }
 
     public void ShieldActive()
@@ -240,10 +250,12 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.LeftShift))
         {
             speed = 5.0f;
+            _thrusters2.SetActive(true);
         }
         if(Input.GetKeyUp(KeyCode.LeftShift))
         {
             speed = 3.5f;
+            _thrusters2.SetActive(false);
         }
     }
 
