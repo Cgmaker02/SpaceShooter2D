@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
     private GameObject _thrusters2;
     [SerializeField]
     private GameObject _thrusters3;
+    [SerializeField]
+    private GameObject _camera;
 
     // Start is called before the first frame update
     void Start()
@@ -177,20 +179,24 @@ public class Player : MonoBehaviour
             {
                 _isShieldActive = false;
                 _shieldVisualizer.SetActive(false);
+                
             }
             return;
         }
 
         _lives --;
+       
 
-        if(_lives == 2)
+        if (_lives == 2)
         {
             _rightEngine.SetActive(true);
+            StartCoroutine(_camera.GetComponent<CameraShake>().ShakeCamera());
         }
 
         if(_lives == 1)
         {
             _leftEngine.SetActive(true);
+            StartCoroutine(_camera.GetComponent<CameraShake>().ShakeCamera());
         }
 
         _uiManager.UpdateLives(_lives);
