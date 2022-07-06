@@ -272,8 +272,11 @@ public class Player : MonoBehaviour
 
     public void Health()
     {
-        _lives++;
-        _uiManager.UpdateLives(_lives);
+        if (_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
 
         if(_lives == 2)
         {
