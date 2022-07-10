@@ -54,6 +54,10 @@ public class PowerUps : MonoBehaviour
                     Destroy(this.gameObject);
                     break;
                 case 5:
+                    other.transform.GetComponent<Player>().NegativePowerup();
+                    Destroy(this.gameObject);
+                    break;
+                case 6:
                     other.transform.GetComponent<Player>().SecondaryFire();
                     Destroy(this.gameObject);
                     break;

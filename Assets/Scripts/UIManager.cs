@@ -15,12 +15,15 @@ public class UIManager : MonoBehaviour
     private Text _gameOver;
     [SerializeField]
     private Text _restartLevel;
+    [SerializeField]
+    private Text _ammoCount;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = ("Score: " + 0);
+        _ammoCount.text = ("Ammo Count: 15/15");
         _gameOver.gameObject.SetActive(false);
         _restartLevel.gameObject.SetActive(false);
     }
@@ -42,7 +45,12 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverFlicker());
     }
 
-   IEnumerator GameOverFlicker()
+    public void UpdateAmmoCount(int current, int max)
+    {
+        _ammoCount.text = ("Ammo Count: " + current +"/" + max);
+    }
+
+    IEnumerator GameOverFlicker()
     {
         while(true)
         {

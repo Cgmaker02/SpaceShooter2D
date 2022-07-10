@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -11,9 +12,19 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] powerups;
+    [SerializeField]
+    private int _maxEnemies = 5;
+    [SerializeField]
+    private int _currentEnemies = 0;
+    [SerializeField]
+    private Text _waveText;
+    private int _wave = 1;
+    private float _timeToSpawn = 5.0f;
+
 
    public void StartSpawning()
     {
+        StartCoroutine(ShowWave());
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
         StartCoroutine(SpawnSecondaryFire());
@@ -32,9 +43,27 @@ public class SpawnManager : MonoBehaviour
 
         while(_stopSpawning == false)
         {
-            GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-7f, 7f), 7f, 0), Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.0f);
+            if (_maxEnemies > _currentEnemies)
+            {
+                GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-7f, 7f), 7f, 0), Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+                _currentEnemies++;
+            }
+            else if(_maxEnemies <= _currentEnemies && _wave < 3)
+            {
+                _currentEnemies = 0;
+                _maxEnemies = _maxEnemies * 2;
+                _timeToSpawn -= .3f;
+                _wave++;
+                StartCoroutine(ShowWave());
+
+            }
+            else
+            {
+                _stopSpawning = true;
+            }
+                yield return new WaitForSeconds(_timeToSpawn);
+            
         }
        
     }
@@ -46,7 +75,7 @@ public class SpawnManager : MonoBehaviour
         while(_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
-            int randompowerup = Random.Range(0, 5);
+            int randompowerup = Random.Range(0, 6);
             Instantiate(powerups[randompowerup], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
@@ -61,12 +90,20 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(40f, 80f));
             Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
-            Instantiate(powerups[5], posToSpawn, Quaternion.identity);
+            Instantiate(powerups[6], posToSpawn, Quaternion.identity);
         }
     }
 
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
+    }
+
+    IEnumerator ShowWave()
+    {
+        _waveText.text = "Wave " + _wave;
+        _waveText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        _waveText.gameObject.SetActive(false);
     }
 }

@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
             _ammoCount--;
             _audioSource.Play();
+            _uiManager.UpdateAmmoCount(_ammoCount, 15);
         }
         else
         {
@@ -268,6 +269,7 @@ public class Player : MonoBehaviour
     public void RefillAmmo()
     {
         _ammoCount = 15;
+        _uiManager.UpdateAmmoCount(_ammoCount, 15);
     }
 
     public void Health()
@@ -303,5 +305,11 @@ public class Player : MonoBehaviour
         _isSecondaryActive = false;
         _playerLeft.SetActive(false);
         _playerRight.SetActive(false);
+    }
+
+    public void NegativePowerup()
+    {
+        _ammoCount = 0;
+        _uiManager.UpdateAmmoCount(_ammoCount, 15);
     }
 }
