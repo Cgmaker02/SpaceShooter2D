@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: laser_right
       objectReference: {fileID: 0}
+    - target: {fileID: 7882893124875834546, guid: 15ef74dee62919744baef037e2c334a3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7882893124875834557, guid: 15ef74dee62919744baef037e2c334a3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -116,6 +120,10 @@ PrefabInstance:
     - target: {fileID: 7882893124875834546, guid: 15ef74dee62919744baef037e2c334a3, type: 3}
       propertyPath: m_Name
       value: laser_left
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882893124875834546, guid: 15ef74dee62919744baef037e2c334a3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7882893124875834557, guid: 15ef74dee62919744baef037e2c334a3, type: 3}
       propertyPath: m_RootOrder

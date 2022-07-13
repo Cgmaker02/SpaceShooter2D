@@ -8,7 +8,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
+    private GameObject _enemyPrefab2;
+    [SerializeField]
     private GameObject _enemyContainer;
+    [SerializeField]
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] powerups;
@@ -26,7 +29,10 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(ShowWave());
         StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnEnemy2Routine());
         StartCoroutine(SpawnPowerUpRoutine());
+        StartCoroutine(SpawnHealthPowerup());
+        StartCoroutine(SpawnNegativePowerup());
         StartCoroutine(SpawnSecondaryFire());
     }
 
@@ -68,14 +74,27 @@ public class SpawnManager : MonoBehaviour
        
     }
 
-    IEnumerator SpawnPowerUpRoutine()
+    IEnumerator SpawnEnemy2Routine()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+                yield return new WaitForSeconds(Random.Range(25f, 35f));
+                GameObject newEnemy2 = Instantiate(_enemyPrefab2, new Vector3(0, 7f, 0), Quaternion.identity);
+                newEnemy2.transform.parent = _enemyContainer.transform;
+                _currentEnemies++;
+        }
+    }
+
+            IEnumerator SpawnPowerUpRoutine()
     {
         yield return new WaitForSeconds(3.0f);
 
         while(_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
-            int randompowerup = Random.Range(0, 6);
+            int randompowerup = Random.Range(0, 4);
             Instantiate(powerups[randompowerup], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
@@ -91,6 +110,30 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(40f, 80f));
             Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
             Instantiate(powerups[6], posToSpawn, Quaternion.identity);
+        }
+    }
+
+    IEnumerator SpawnNegativePowerup()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(40f, 80f));
+            Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
+            Instantiate(powerups[5], posToSpawn, Quaternion.identity);
+        }
+    }
+
+    IEnumerator SpawnHealthPowerup()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(20f, 50f));
+            Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
+            Instantiate(powerups[4], posToSpawn, Quaternion.identity);
         }
     }
 

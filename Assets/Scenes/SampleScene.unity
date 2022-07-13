@@ -219,7 +219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 6406844194181908032, guid: 8c86590e10e0bdb4f8a2376873f69ff6, type: 3}
+  _enemyPrefab2: {fileID: 3735534977033822262, guid: 31d033d6cc5c9fe41b89ac456ef56576, type: 3}
   _enemyContainer: {fileID: 6960002}
+  _stopSpawning: 0
   powerups:
   - {fileID: 8990539949817950067, guid: d798fe72d737c1340aa75660ca4b1d9e, type: 3}
   - {fileID: 2440531276030716566, guid: ac174aa5e23f9c94f9c1b9685c652007, type: 3}
@@ -2494,6 +2496,10 @@ PrefabInstance:
     - target: {fileID: 3746517255099839298, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_Name
       value: Asteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746517255099839298, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3746517255099839309, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_RootOrder
