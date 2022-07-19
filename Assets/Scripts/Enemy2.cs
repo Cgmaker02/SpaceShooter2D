@@ -26,6 +26,11 @@ public class Enemy2 : MonoBehaviour
         _anim = GetComponent<Animator>();
         _player = GameObject.Find("Player").GetComponent<Player>();
 
+        if(_player == null)
+        {
+            Debug.LogError("player is NULL");
+        }
+
         transform.localEulerAngles = new Vector3(0, 0, 90);
     }
 
@@ -66,10 +71,23 @@ public class Enemy2 : MonoBehaviour
         {
             if (_canFireActive == true)
             {
-                _fireRate = Random.Range(3.0f, 7.0f);
-                _canFire = Time.time + _fireRate;
-                GameObject enemyMissle = Instantiate(_misslePrefab, transform.position, Quaternion.identity);
+                if (_player != null)
+                {
+                    if (transform.position.y > _player.transform.position.y)
+                    {
+                        _fireRate = Random.Range(3.0f, 7.0f);
+                        _canFire = Time.time + _fireRate;
+                        GameObject enemyMissle = Instantiate(_misslePrefab, transform.position, Quaternion.identity);
+                    }
 
+                    if (transform.position.y < _player.transform.position.y)
+                    {
+                        _fireRate = Random.Range(3.0f, 7.0f);
+                        _canFire = Time.time + _fireRate;
+                        GameObject enemyMissle = Instantiate(_misslePrefab, transform.position, Quaternion.identity);
+                        enemyMissle.GetComponent<Enemy2Missle>().FireBackwards();
+                    }
+                }
             }
         }
     }

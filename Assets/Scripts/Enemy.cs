@@ -19,33 +19,58 @@ public class Enemy : MonoBehaviour
     private Vector3 _pos;
     private Vector3 _axis;
     private bool _canfireActive = true;
+    private SpawnManager _spawnManager;
+    [SerializeField]
+    private GameObject _enemyShields;
+    private bool _isEnemyShieldActive;
+    private float _distance;
+    private float _ramSpeed = 2.5f;
+    private float _attackRange = 3.0f;
+    private float _ramMultiplier = 2.0f;
 
 
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _anim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
 
-        if(_player == null)
+        if (_player == null)
         {
             Debug.LogError("the player is NULL");
         }
 
-        if(_anim == null)
+        if (_anim == null)
         {
             Debug.LogError("the animator is NULL");
         }
 
+        if (_spawnManager == null)
+        {
+            Debug.LogError("SpawnManager is NULL");
+        }
+
         _pos = transform.position;
         _axis = transform.right;
+
+        int x = Random.Range(0, 100);
+        if (x >= 85)
+        {
+            _isEnemyShieldActive = true;
+        }
+        else
+        {
+            _isEnemyShieldActive = false;
+        }
+        _enemyShields.SetActive(_isEnemyShieldActive);
     }
     // Update is called once per frame
     void Update()
     {
         CalculateMovement();
 
-        if(Time.time > _canFire)
+        if (Time.time > _canFire)
         {
             if (_canfireActive == true)
             {
@@ -61,8 +86,26 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        _pos += Vector3.down * Time.deltaTime * _cyclespeed;
-        transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
+        if (_player != null)
+        {
+            _distance = Vector3.Distance(_player.transform.position, this.transform.position);
+            Debug.Log(_distance);
+        }
+
+        if (_distance <= _attackRange)
+        {
+            if (_player != null)
+            {
+                Vector3 direction = this.transform.position - _player.transform.position;
+                direction = direction.normalized;
+                this.transform.position -= direction * Time.deltaTime * (_ramSpeed * _ramMultiplier);
+            }
+        }
+        else
+        {
+            _pos += Vector3.down * Time.deltaTime * _cyclespeed;
+            transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
+        }
 
 
         if (transform.position.y <= -5f)
@@ -91,17 +134,30 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-
-            if(_player != null)
+            if (_isEnemyShieldActive == true) //&& _enemyShields.activeInHierarchy == true)
             {
-                _player.UpdateScore(10);
+                _enemyShields.SetActive(false);
+                _isEnemyShieldActive = false;
+                return;
             }
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-            _canfireActive = false;
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject,2.0f);
+            else
+            {
+                if (_player != null)
+                {
+                    _player.UpdateScore(10);
+                }
+
+                _anim.SetTrigger("OnEnemyDeath");
+                _speed = 0;
+                _audioSource.Play();
+                _canfireActive = false;
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.0f);
+            }
+
+
         }
     }
+
+
 }

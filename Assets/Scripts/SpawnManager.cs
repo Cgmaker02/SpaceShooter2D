@@ -23,6 +23,7 @@ public class SpawnManager : MonoBehaviour
     private Text _waveText;
     private int _wave = 1;
     private float _timeToSpawn = 5.0f;
+  
 
 
    public void StartSpawning()
@@ -54,6 +55,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-7f, 7f), 7f, 0), Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 _currentEnemies++;
+              
             }
             else if(_maxEnemies <= _currentEnemies && _wave < 3)
             {
@@ -80,14 +82,14 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawning == false)
         {
-                yield return new WaitForSeconds(Random.Range(25f, 35f));
+                yield return new WaitForSeconds(Random.Range(20f, 30f));
                 GameObject newEnemy2 = Instantiate(_enemyPrefab2, new Vector3(0, 7f, 0), Quaternion.identity);
                 newEnemy2.transform.parent = _enemyContainer.transform;
                 _currentEnemies++;
         }
     }
 
-            IEnumerator SpawnPowerUpRoutine()
+    IEnumerator SpawnPowerUpRoutine()
     {
         yield return new WaitForSeconds(3.0f);
 
@@ -149,4 +151,6 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         _waveText.gameObject.SetActive(false);
     }
+
+   
 }

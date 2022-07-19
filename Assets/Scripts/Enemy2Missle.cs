@@ -9,10 +9,11 @@ public class Enemy2Missle : MonoBehaviour
     private Vector3 _axis;
     private float _frequency = 2f;
     private float _amplitude = 2f;
+    private bool _isFireBackwards;
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         _pos = transform.position;
         _axis = transform.right;
     }
@@ -20,12 +21,13 @@ public class Enemy2Missle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _pos += Vector3.down * Time.deltaTime * _speed;
-        transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
-
-        if (transform.position.y < -8f)
+       if(_isFireBackwards == false)
         {
-            Destroy(this.gameObject);
+            MoveDown();
+        }
+       else if(_isFireBackwards == true)
+        {
+            MoveUP();
         }
     }
 
@@ -41,5 +43,34 @@ public class Enemy2Missle : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+    }
+
+    void MoveUP()
+    {
+        _pos += Vector3.up * Time.deltaTime * _speed;
+
+        transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
+
+        if (transform.position.y < -8f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void MoveDown()
+    {
+        _pos += Vector3.down * Time.deltaTime * _speed;
+
+        transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
+
+        if (transform.position.y < -8f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void FireBackwards()
+    {
+        _isFireBackwards = true;
     }
 }
