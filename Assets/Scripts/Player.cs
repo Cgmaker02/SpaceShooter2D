@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
     private GameObject _thrusters3;
     [SerializeField]
     private GameObject _camera;
+    [SerializeField]
+    private GameObject _missilePrefab;
+    private bool _isMissileActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +103,7 @@ public class Player : MonoBehaviour
             FireLaser();
         }
 
+        MissileFire();
         Thrusters();
     }
 
@@ -312,4 +316,28 @@ public class Player : MonoBehaviour
         _ammoCount = 0;
         _uiManager.UpdateAmmoCount(_ammoCount, 15);
     }
+
+    void MissileFire()
+    {
+       // if (_isMissileActive == true)
+       // {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+            }
+       // }
+    }
+
+    public void MissilePowerup()
+    {
+        _isMissileActive = true;
+        StartCoroutine(MissileCoolDown());
+    }
+
+    IEnumerator MissileCoolDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isMissileActive = false;
+    }
+
 }

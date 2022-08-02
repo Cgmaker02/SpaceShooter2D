@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2590106818557374927}
   m_Layer: 0
   m_Name: ShieldPowerup
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   _speed: 3
   _powerupID: 2
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  _explosionPrefab: {fileID: 1095035437724761695, guid: 367a21acc4e411e4b807cd721f2501e9, type: 3}
 --- !u!50 &1376146251146289244
 Rigidbody2D:
   serializedVersion: 4

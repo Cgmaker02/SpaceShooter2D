@@ -109,7 +109,7 @@ public class Enemy2 : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (other.tag == "Laser")
+        if (other.tag == "Laser" || other.tag == "Missile")
         {
             Destroy(other.gameObject);
 

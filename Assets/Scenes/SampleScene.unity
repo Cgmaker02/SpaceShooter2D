@@ -220,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 6406844194181908032, guid: 8c86590e10e0bdb4f8a2376873f69ff6, type: 3}
   _enemyPrefab2: {fileID: 3735534977033822262, guid: 31d033d6cc5c9fe41b89ac456ef56576, type: 3}
+  _enemyPrefab3: {fileID: 939531258421154271, guid: 68c7e52d846e39a4e9c9f89548850202, type: 3}
   _enemyContainer: {fileID: 6960002}
   _stopSpawning: 0
   powerups:
@@ -230,6 +231,7 @@ MonoBehaviour:
   - {fileID: 2763354502153777243, guid: 0996951f529739948868dd4adcd46644, type: 3}
   - {fileID: 2436439851490647837, guid: df942cb84d86a5b4aa02224762c740d4, type: 3}
   - {fileID: 12592908583311034, guid: 58672dc8b5538a64d895833ba4d61076, type: 3}
+  - {fileID: 2546658924991939858, guid: a38b110ca6cdf414a9ac2b28d909bdd7, type: 3}
   _maxEnemies: 5
   _currentEnemies: 0
   _waveText: {fileID: 15650843}
@@ -823,6 +825,7 @@ MonoBehaviour:
   _thrusters2: {fileID: 1700345864}
   _thrusters3: {fileID: 2086833596}
   _camera: {fileID: 963194225}
+  _missilePrefab: {fileID: 6004474349191645916, guid: f7bd4640c19606b47ba944b841154adb, type: 3}
 --- !u!212 &482637806
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2286,7 +2289,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2086833596
 GameObject:
@@ -2411,15 +2414,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3746517255099839309, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3746517255099839309, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3746517255099839309, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.53
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: 3746517255099839309, guid: 8be376fe94a5a0b40930be0df0474c7e, type: 3}
       propertyPath: m_LocalPosition.z

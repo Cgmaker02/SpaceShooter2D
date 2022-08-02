@@ -10,15 +10,26 @@ public class PowerUps : MonoBehaviour
     private int _powerupID;
     [SerializeField]
     private AudioClip _clip;
+    [SerializeField]
+    private GameObject _explosionPrefab;
+    private Player _player;
    
     private void Start()
     {
-       
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.C))
+        {
+            BeingCollected();
+            Debug.Log("being collected");
+        }
+        else
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
 
         if(transform.position.y < -6)
         {
@@ -61,10 +72,32 @@ public class PowerUps : MonoBehaviour
                     other.transform.GetComponent<Player>().SecondaryFire();
                     Destroy(this.gameObject);
                     break;
+                case 7:
+                    other.transform.GetComponent<Player>().MissilePowerup();
+                    Destroy(this.gameObject);
+                    break;
                 default:
                     Debug.Log("default value");
                     break;
             }
+        }
+
+        if(other.tag == "EnemyLaser")
+        {
+            Destroy(other.gameObject);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+            Debug.Log("destroyed");
+        }
+    }
+
+    void BeingCollected()
+    {
+        if (_player != null)
+        {
+            Vector3 dir = this.transform.position - _player.transform.position;
+            dir = dir.normalized;
+            this.transform.position -= dir * Time.deltaTime * (_speed * 2);
         }
     }
 }

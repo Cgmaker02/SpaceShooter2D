@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab2;
     [SerializeField]
+    private GameObject _enemyPrefab3;
+    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawning = false;
@@ -31,10 +33,12 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(ShowWave());
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnEnemy2Routine());
+        StartCoroutine(SpawnEnemy3Routine());
         StartCoroutine(SpawnPowerUpRoutine());
         StartCoroutine(SpawnHealthPowerup());
         StartCoroutine(SpawnNegativePowerup());
         StartCoroutine(SpawnSecondaryFire());
+        StartCoroutine(SpawnMissilePowerup());
     }
 
 
@@ -89,6 +93,19 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnEnemy3Routine()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(30f, 50f));
+            GameObject newEnemy3 = Instantiate(_enemyPrefab3, new Vector3(Random.Range(-7,7), 7f, 0), Quaternion.identity);
+            newEnemy3.transform.parent = _enemyContainer.transform;
+            _currentEnemies++;
+        }
+    }
+
     IEnumerator SpawnPowerUpRoutine()
     {
         yield return new WaitForSeconds(3.0f);
@@ -139,9 +156,22 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnMissilePowerup()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(40f, 50f));
+            Vector3 posToSpawn = new Vector3(Random.Range(-7f, 7f), 7f, 0);
+            Instantiate(powerups[7], posToSpawn, Quaternion.identity);
+        }
+    }
+
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
+        StopAllCoroutines();
     }
 
     IEnumerator ShowWave()

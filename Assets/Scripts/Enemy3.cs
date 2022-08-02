@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy3 : MonoBehaviour
 {
+    private int _moveDirection;
+    private bool _canDodge = true;
     [SerializeField]
     private float _speed = 2f;
     private Player _player;
@@ -13,23 +15,12 @@ public class Enemy : MonoBehaviour
     public GameObject _laserPrefab;
     private float _fireRate = 3.0f;
     private float _canFire = -1;
-    private float _frequency = 1.0f;
-    private float _amplitude = 1.0f;
-    private float _cyclespeed = 1.0f;
-    private Vector3 _pos;
-    private Vector3 _axis;
-    private bool _canfireActive = true;
+    private bool _canfireActive;
     private SpawnManager _spawnManager;
-    [SerializeField]
-    private GameObject _enemyShields;
-    private bool _isEnemyShieldActive;
-    private float _distance;
-    private float _ramSpeed = 2.5f;
-    private float _attackRange = 3.0f;
-    private float _ramMultiplier = 2.0f;
 
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
@@ -50,24 +41,12 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("SpawnManager is NULL");
         }
-
-        _pos = transform.position;
-        _axis = transform.right;
-
-        int x = Random.Range(0, 100);
-        if (x >= 85)
-        {
-            _isEnemyShieldActive = true;
-        }
-        else
-        {
-            _isEnemyShieldActive = false;
-        }
-        _enemyShields.SetActive(_isEnemyShieldActive);
     }
+
     // Update is called once per frame
     void Update()
     {
+        DodgeShot();
         CalculateMovement();
 
         if (Time.time > _canFire)
@@ -81,31 +60,29 @@ public class Enemy : MonoBehaviour
                 lasers[0].AssignEnemyLaser();
                 lasers[1].AssignEnemyLaser();
             }
+        } 
+    }
+
+    void DodgeShot()
+    {
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, 0.5f, Vector2.down, 8.0f);
+        Debug.DrawRay(transform.position, Vector3.down * 8.0f, Color.red);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("Laser") && _canDodge == true)
+            {
+                _moveDirection = Random.Range(0, 2) == 0 ? -2 : 2;
+                transform.position = new Vector3(transform.position.x - _moveDirection,
+                    transform.position.y, transform.position.z);
+                _canDodge = false;
+            }
         }
     }
 
     void CalculateMovement()
     {
-        if (_player != null)
-        {
-            _distance = Vector3.Distance(_player.transform.position, this.transform.position);
-        }
-
-        if (_distance <= _attackRange)
-        {
-            if (_player != null)
-            {
-                Vector3 direction = this.transform.position - _player.transform.position;
-                direction = direction.normalized;
-                this.transform.position -= direction * Time.deltaTime * (_ramSpeed * _ramMultiplier);
-            }
-        }
-        else
-        {
-            _pos += Vector3.down * Time.deltaTime * _cyclespeed;
-            transform.position = _pos + _axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
-        }
-
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         if (transform.position.y <= -5f)
         {
@@ -130,17 +107,12 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.0f);
         }
 
-        if (other.tag == "Laser" || other.tag == "Missile")
+        if (other.tag == "Laser" && _canDodge == false || other.tag == "Missile")
         {
             Destroy(other.gameObject);
-            if (_isEnemyShieldActive == true) 
-            {
-                _enemyShields.SetActive(false);
-                _isEnemyShieldActive = false;
-                return;
-            }
-            else
-            {
+          
+            
+            
                 if (_player != null)
                 {
                     _player.UpdateScore(10);
@@ -152,8 +124,6 @@ public class Enemy : MonoBehaviour
                 _canfireActive = false;
                 Destroy(GetComponent<Collider2D>());
                 Destroy(this.gameObject, 2.0f);
-            }
-
 
         }
     }
