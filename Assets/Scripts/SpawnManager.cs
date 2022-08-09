@@ -23,8 +23,10 @@ public class SpawnManager : MonoBehaviour
     private int _currentEnemies = 0;
     [SerializeField]
     private Text _waveText;
+    [SerializeField]
     private int _wave = 1;
     private float _timeToSpawn = 5.0f;
+    private Boss _boss;
   
 
 
@@ -39,6 +41,12 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnNegativePowerup());
         StartCoroutine(SpawnSecondaryFire());
         StartCoroutine(SpawnMissilePowerup());
+
+        _boss = GameObject.Find("Boss").GetComponent<Boss>();
+        if(_boss == null)
+        {
+            Debug.LogError("Boss is NULL");
+        }
     }
 
 
@@ -61,19 +69,28 @@ public class SpawnManager : MonoBehaviour
                 _currentEnemies++;
               
             }
-            else if(_maxEnemies <= _currentEnemies && _wave < 3)
+            else if(_maxEnemies <= _currentEnemies && _wave < 4)
             {
                 _currentEnemies = 0;
                 _maxEnemies = _maxEnemies * 2;
                 _timeToSpawn -= .3f;
                 _wave++;
-                StartCoroutine(ShowWave());
+                if (_wave <= 3)
+                {
+                    StartCoroutine(ShowWave());
+                }
+                if(_wave == 4)
+                {
+                    StopAllCoroutines();
+                    _boss.StartBoss();
+                }
 
             }
             else
             {
                 _stopSpawning = true;
             }
+            
                 yield return new WaitForSeconds(_timeToSpawn);
             
         }

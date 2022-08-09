@@ -60,4 +60,22 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    IEnumerator YouWinFlicker()
+    {
+        while(true)
+        {
+            _gameOver.text = "YOU WIN";
+            yield return new WaitForSeconds(0.5f);
+            _gameOver.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    public void YouWin()
+    {
+        _gameOver.gameObject.SetActive(true);
+        _restartLevel.gameObject.SetActive(true);
+        StartCoroutine(YouWinFlicker());
+    }
 }

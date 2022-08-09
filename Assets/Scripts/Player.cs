@@ -319,13 +319,13 @@ public class Player : MonoBehaviour
 
     void MissileFire()
     {
-       // if (_isMissileActive == true)
-       // {
+        if (_isMissileActive == true)
+        {
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Instantiate(_missilePrefab, transform.position, Quaternion.identity);
             }
-       // }
+        }
     }
 
     public void MissilePowerup()
